@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   LinkedListNode.hpp                                 :+:      :+:    :+:   */
+/*   last_node.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/17 23:07:41 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/17 23:20:15 by jihoolee         ###   ########.fr       */
+/*   Created: 2022/09/23 16:13:23 by jihoolee          #+#    #+#             */
+/*   Updated: 2022/09/23 16:17:26 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LINKED_LIST_NODE_HPP_
-# define LINKED_LIST_NODE_HPP_
+#include "linked_list.h"
 
-template <typename T>
-class LinkedListNode {
-};
-
-#endif
+t_node	*last_node(t_node *node)
+{
+	if (node == NULL)
+		return (NULL);
+	while (node->next != NULL)
+		node = node->next;
+	return (node);
+}

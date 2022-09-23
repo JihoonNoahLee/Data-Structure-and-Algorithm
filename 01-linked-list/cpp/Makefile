@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/21 19:08:42 by jihoolee          #+#    #+#              #
-#    Updated: 2022/09/21 19:27:17 by jihoolee         ###   ########.fr        #
+#    Updated: 2022/09/23 15:40:21 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,12 @@ $(OBJ_DIR)/%.o : %.cpp
 $(NAME) : $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $^
 
-clean:
+clean :
 	$(RM) $(OBJ_DIR)
 
-fclean: clean
+fclean : clean
 	$(RM) $(NAME)
 
-re: fclean all
+re : fclean all
 
 .PHONY: all clean fclean re
