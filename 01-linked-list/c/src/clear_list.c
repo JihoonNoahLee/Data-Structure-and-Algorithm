@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kth_node.c                                         :+:      :+:    :+:   */
+/*   clear_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 16:48:30 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/23 16:53:50 by jihoolee         ###   ########.fr       */
+/*   Created: 2022/09/26 14:40:38 by jihoolee          #+#    #+#             */
+/*   Updated: 2022/09/26 14:41:26 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linked_list.h"
 
-t_node	*kth_node(t_node *lst, int k)
+void	clear_list(t_list *list)
 {
-	int		iter;
+	t_node	*node;
+	t_node	*next;
 
-	if (lst == NULL)
-		return (NULL);
-	iter = 0;
-	while (iter < k && lst != NULL)
+	node = list->head;
+	while (node != NULL)
 	{
-		lst = lst->next;
-		iter++;
+		next = node->next;
+		free(node);
+		node = next;
 	}
-	return (lst);
+	list->head = NULL;
+	list->len = 0;
 }

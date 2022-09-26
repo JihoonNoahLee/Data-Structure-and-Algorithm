@@ -1,43 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_kth.c                                          :+:      :+:    :+:   */
+/*   del_at.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 16:47:16 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/23 17:01:51 by jihoolee         ###   ########.fr       */
+/*   Created: 2022/09/26 15:21:52 by jihoolee          #+#    #+#             */
+/*   Updated: 2022/09/26 15:23:01 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linked_list.h"
 
-void	add_kth(t_node **head, int data, int k)
+void	del_at(t_list *list, size_t idx)
 {
-	t_node	*new_node;
+	t_node	*del_node;
 	t_node	*prev_node;
-	t_node	*next_node;
-	int		i;
 
-	if (head == NULL)
-		return ;
-	new_node = create_node(data);
-	if (new_node == NULL)
-		return ;
-	if (*head == NULL)
-		*head = new_node;
+	if (idx == 0)
+		del_front(list);
+	else if (idx == list->len - 1)
+		del_back(list);
 	else
 	{
-		prev_node = *head;
-		next_node = prev_node->next;
-		i = 0;
-		while (i < k - 1 && next_node != NULL)
-		{
-			prev_node = next_node;
-			next_node = prev_node->next;
-			i++;
-		}
-		prev_node->next = new_node;
-		new_node->next = next_node;
+		prev_node = get_node(list, idx - 1);
+		del_node = prev_node->next;
+		prev_node->next = del_node->next;
+		delone_node(del_node);
+		list->len--;
 	}
 }

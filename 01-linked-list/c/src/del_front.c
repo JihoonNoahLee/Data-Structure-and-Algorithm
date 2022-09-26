@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_node.c                                      :+:      :+:    :+:   */
+/*   del_front.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 16:03:26 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/26 14:31:25 by jihoolee         ###   ########.fr       */
+/*   Created: 2022/09/26 15:14:33 by jihoolee          #+#    #+#             */
+/*   Updated: 2022/09/26 15:14:55 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linked_list.h"
 
-t_node	*create_node(int data)
+void	del_front(t_list *list)
 {
-	t_node	*node;
+	t_node	*del_node;
 
-	node = (t_node *)malloc(sizeof(t_node));
-	if (node == NULL)
-		return (NULL);
-	node->data = data;
-	node->next = NULL;
-	return (node);
+	if (list->len == 0)
+		return ;
+	del_node = list->head;
+	list->head = del_node->next;
+	delone_node(del_node);
+	list->len--;
 }

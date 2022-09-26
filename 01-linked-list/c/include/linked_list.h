@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 15:57:41 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/23 16:48:08 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:24:50 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,45 @@
 
 # include <stdlib.h>
 
-typedef struct	s_node
+typedef struct s_node
 {
-  int			data;
-  struct s_node	*next;
+	int				data;
+	struct s_node	*next;
 }	t_node;
 
-//❎
-/*
-** to_implement: 
-– Adding an element at the kth position
-- Adding an element at the beginning ✅
-- Adding an element at the end       ✅
-- Accessing an element
-- Deleting an element at the kth position
-*/
+typedef struct s_list
+{
+	t_node	*head;
+	size_t	len;
+}	t_list;
 
 /*
 ** Adding and deleting node
 */
 t_node	*create_node(int data);
-void    delone_node(t_node *node);
+void	delone_node(t_node *node);
+void	clear_list(t_list *list);
 
 /*
-** iterating thorugh the list
+** accessing node
 */
-t_node	*last_node(t_node *node);
-t_node  *kth_node(t_node *node, int k);
+t_node	*get_node_at(t_list list, size_t idx);
+int		get_data_at(t_list list, size_t idx);
+t_node	*find_node(t_list list, int data);
+size_t	find_idx(t_list list, int data);
 
 /*
 ** inserting node into list
 */
-void  add_front(t_node **head, int data);
-void	add_back(t_node **head, int data);
-void  add_kth(t_node **head, int data, int k);
+void	add_front(t_list *list, int data);
+void	add_back(t_list *list, int data);
+void	add_at(t_list *list, int data, size_t idx);
+
+/*
+** deleting node from list
+*/
+void	del_front(t_list *list);
+void	del_back(t_list *list);
+void	del_at(t_list *list, size_t idx);
 
 #endif
