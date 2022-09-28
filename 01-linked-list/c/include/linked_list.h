@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 15:57:41 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/26 15:24:50 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/28 19:50:52 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_list
 }	t_list;
 
 /*
-** Adding and deleting node
+** adding and deleting node
 */
 t_node	*create_node(int data);
 void	delone_node(t_node *node);

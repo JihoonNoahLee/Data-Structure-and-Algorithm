@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_front.c                                        :+:      :+:    :+:   */
+/*   test_linked_list.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 16:42:41 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/28 19:54:31 by jihoolee         ###   ########.fr       */
+/*   Created: 2022/09/28 19:37:01 by jihoolee          #+#    #+#             */
+/*   Updated: 2022/09/28 19:38:02 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "linked_list.h"
+#ifndef TEST_LINKED_LIST_H_
+# define TEST_LINKED_LIST_H_
 
-void	add_front(t_list *list, int data)
-{
-	t_node	*new_node;
+# include <stdio.h>
+# include "linked_list.h"
 
-	new_node = create_node(data);
-	if (new_node == NULL)
-		return;
-	new_node->next = list->head;
-	list->head = new_node;
-	list->len++;
-}
+void	print_list(t_list list);
+
+#endif

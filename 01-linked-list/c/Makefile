@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/23 15:36:49 by jihoolee          #+#    #+#              #
-#    Updated: 2022/09/23 15:57:15 by jihoolee         ###   ########.fr        #
+#    Updated: 2022/09/28 19:53:30 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,23 @@ CC		=	clang
 CFLAGS 	=	-Iinclude/ -Wall -Wextra -Werror
 RM		=	rm -rf
 
-SRC		=	main.c
+SRC		=	main.c\
+			add_at.c\
+			add_back.c\
+			add_front.c\
+			clear_list.c\
+			create_node.c\
+			del_at.c\
+			del_back.c\
+			del_front.c\
+			delone_node.c\
+			find_idx.c\
+			find_node.c\
+			get_data_at.c\
+			get_node_at.c\
+			main.c\
+			print_list.c
+
 SRC_DIR	=	src/
 SRCS	=	$(addprefix $(SRC_DIR), $(SRC))
 

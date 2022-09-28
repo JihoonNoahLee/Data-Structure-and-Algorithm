@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 15:21:52 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/26 15:23:01 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/28 19:52:24 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	del_at(t_list *list, size_t idx)
 		del_back(list);
 	else
 	{
-		prev_node = get_node(list, idx - 1);
+		prev_node = get_node_at(*list, idx - 1);
 		del_node = prev_node->next;
 		prev_node->next = del_node->next;
 		delone_node(del_node);

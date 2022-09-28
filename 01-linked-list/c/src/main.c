@@ -6,28 +6,24 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 15:37:23 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/23 16:17:35 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/28 19:55:22 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "linked_list.h"
-
-size_t	ft_strlen(char *str)
-{
-	size_t	len;
-
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
-}
+#include "test_linked_list.h"
 
 int	main(void)
 {
-	char	*msg;
+	t_list	list;
 
-	msg = "Hello World!\n";
-	write(STDOUT_FILENO, msg, ft_strlen(msg));
+	list.head = NULL;
+	list.len = 0;
+	add_front(&list, 1);
+	add_front(&list, 2);
+	add_front(&list, 3);
+	add_front(&list, 4);
+	add_front(&list, 5);
+	print_list(list);
 	return (0);
 }

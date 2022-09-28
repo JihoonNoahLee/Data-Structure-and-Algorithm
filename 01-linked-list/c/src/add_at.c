@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 15:01:50 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/26 15:02:06 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/28 19:51:29 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	add_at(t_list *list, int data, size_t idx)
 	else
 	{
 		new_node = create_node(data);
-		prev_node = get_node(list, idx - 1);
+		prev_node = get_node_at(*list, idx - 1);
 		new_node->next = prev_node->next;
 		prev_node->next = new_node;
 		list->len++;
