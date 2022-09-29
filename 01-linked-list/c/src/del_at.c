@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 15:21:52 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/28 19:52:24 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:45:07 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	del_at(t_list *list, size_t idx)
 	t_node	*del_node;
 	t_node	*prev_node;
 
+	if (list == NULL)
+		return ;
 	if (idx == 0)
 		del_front(list);
 	else if (idx == list->len - 1)

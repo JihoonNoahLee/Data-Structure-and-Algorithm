@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 16:42:41 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/28 19:54:31 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:44:29 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	add_front(t_list *list, int data)
 {
 	t_node	*new_node;
 
+	if (list == NULL)
+		return ;
 	new_node = create_node(data);
 	if (new_node == NULL)
 		return;

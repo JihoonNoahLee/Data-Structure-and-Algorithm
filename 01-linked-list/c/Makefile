@@ -6,7 +6,7 @@
 #    By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/23 15:36:49 by jihoolee          #+#    #+#              #
-#    Updated: 2022/09/28 19:53:30 by jihoolee         ###   ########.fr        #
+#    Updated: 2022/09/29 13:59:19 by jihoolee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC		=	main.c\
 			get_data_at.c\
 			get_node_at.c\
 			main.c\
-			print_list.c
+			test.c
 
 SRC_DIR	=	src/
 SRCS	=	$(addprefix $(SRC_DIR), $(SRC))

@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 15:57:41 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/28 19:50:52 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:01:03 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_list
 }	t_list;
 
 /*
-** adding and deleting node
+** allocating and freeing node
 */
 t_node	*create_node(int data);
 void	delone_node(t_node *node);
@@ -43,7 +43,7 @@ t_node	*find_node(t_list list, int data);
 size_t	find_idx(t_list list, int data);
 
 /*
-** inserting node into list
+** adding node into list
 */
 void	add_front(t_list *list, int data);
 void	add_back(t_list *list, int data);

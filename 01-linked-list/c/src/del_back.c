@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 15:16:01 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/26 15:20:34 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:45:24 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	del_back(t_list *list)
 {
 	t_node	*del_node;
 
+	if (list == NULL)
+		return ;
 	if (list->len == 0)
 		return ;
 	del_node = get_node_at(*list, list->len - 2);
