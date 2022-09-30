@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   LinkedList.hpp                                     :+:      :+:    :+:   */
+/*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 22:36:02 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/22 14:32:35 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:23:19 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,13 @@
 # include <memory>
 # include <stdexcept>
 
-template <typename T>
-struct Node {
-  T         data;
-  Node<T>*  next;
-  Node<T>*  prev;
+# include "type_traits.hpp"
+# include "list_node.hpp"
+# include "list_iterator.hpp"
 
-  Node(void): data(), next(nullptr) {}
-  Node(const T& val): data(val), next(nullptr) {}
-  Node(const T& val, Node* next_p): data(val), next(next_p) {}
-};
-
+namespace ft {
 template <typename T, typename Alloc = std::allocator<T> >
-class LinkedList {
+class list {
  public:
   typedef T                                         value_type;
   typedef Alloc                                     allocator_type;
@@ -38,152 +32,134 @@ class LinkedList {
   typedef typename allocator_type::const_pointer    const_pointer;
   typedef typename allocator_type::size_type        size_type;
   typedef typename allocator_type::differende_type  difference_type;
+  typedef list_iterator<value_type>                 iterator;
+  typedef list_const_iterator<value_type>           const_iterator;
+  typedef reverse_iterator<iterator>                reverse_iterator;
+  typedef ft::reverse_iterator<const_iterator>      const_reverse_iterator;
 
-  explicit LinkedList(const allocator_type& alloc = allocator_type())
-    : alloc_(alloc), node_alloc_(), head_(nullptr), len_(0), tail_(nullptr) {}
-
-  explicit LinkedList(size_type n, const value_type& val = value_type(),
-                      const allocator_type& alloc = allocator_type*())
-    : alloc_(alloc), node_alloc_(), head_(nullptr), len_(0), tail_(nullptr) {
-  tail_ = head_ = node_alloc_.allocate(1);
-  node_alloc_.construct(head_, value_type);
-  // this->insert();
+  explicit list(const allocator_type& alloc = allocator_type())
+    : alloc_(alloc) {
+    last_node_ = node_alloc_.allocate(1);
+    node_alloc_.construct(last_node_, __node_type());
+    last_node_->prev = last_node_;
+    last_node_->next = last_node_;
   }
 
-/*   LinkedList(const LinkedList& l) : alloc_(l.alloc_) {
-    head_ = node_alloc_.allocate(1);
-    node_alloc_.construct(head_, *l.head_);
-  } */
+  explicit list(size_type n, const value_type& val = value_type(),
+    const allocator_type& alloc = allocator_type())
+    : alloc_(alloc) {
+    last_node_ = node_alloc_.allocate(1);
+    node_alloc_.construct(last_node_, __node_type());
+    last_node_->prev = last_node_;
+    last_node_->next = last_node_;
+    this->insert(this->end(), n, val);
+  }
 
-/*   virtual ~LinkedList(void) {
+  template <typename InputIterator>
+  list (InputIterator first,
+        InputIterator last,
+        const allocator_type& alloc = allocator_type(),
+        typename enable_if<!is_integral<InputIterator>::value>::type* = nullptr)
+    : alloc_(alloc) {
+    last_node_ = node_alloc_.allocate(1);
+    node_alloc_.construct(last_node_, __node_type());
+    last_node_->prev = last_node_;
+    last_node_->next = last_node_;
+    this->insert(this->end(), first, last);
+  }
+
+  explicit list(const list& x)
+    : alloc_(x.alloc_) {
+    last_node_ = node_alloc_.allocate(1);
+    node_alloc_.construct(last_node_, __node_type());
+    last_node_->prev = last_node_;
+    last_node_->next = last_node_;
+    this->insert(this->end(), x.begin(), x.end());
+  }
+
+  virtual ~list(void) {
     this->clear();
-  } */
+    node_alloc_.destroy(last_node_);
+    node_alloc_.deallocate(last_node_, 1);
+  }
 
-/*   LinkedList& operator=(const LinkedList& l) {
-    if (&l == this)
-      return *this;
-    this->clear();
+  list& operator=(const list& x) {
+    if (this == &x)
+      return (*this);
+    this->assign(x.begin(), x.end());
+    return (*this);
+  }
 
-  } */
+  iterator begin(void) {
+    return (iterator(last_node_->next));
+  }
+
+  const_iterator begin(void) const {
+    return (const_iterator(last_node_->next));
+  }
+
+  iterator end(void) {
+    return (iterator(last_node_));
+  }
+
+  const_iterator end(void) const {
+    return (const_iterator(last_node_));
+  }
+
+  reverse_iterator rbegin(void) {
+    return (reverse_iterator(this->end()));
+  }
+
+  const_reverse_iterator rbegin(void) const {
+    return (const_reverse_iterator(this->end()));
+  }
+
+  reverse_iterator rend(void) {
+    return (reverse_iterator(this->begin()));
+  }
+
+  const_reverse_iterator rend(void) const {
+    return (const_reverse_iterator(this->begin()));
+  }
 
   bool empty(void) const {
-    return len_ == 0;
+    return (last_node_->next == last_node_);
   }
 
   size_type size(void) const {
-    return len_;
+    size_type size = 0;
+    for (const_iterator it = this->begin(); it != this->end(); ++it)
+      ++size;
+    return (size);
   }
 
-/*   size_type max_size(void) const {}*/
+  size_type max_size(void) const {
+    return (node_alloc_.max_size());
+  }
 
   reference front(void) {
-    return head_->data;
+    return (last_node_->next->data);
   }
 
   const_reference front(void) const {
-    return head_->data;
+    return (last_node_->next->data);
   }
 
   reference back(void) {
-    return tail_->data;
+    return (last_node_->prev->data);
   }
 
   const_reference back(void) const {
-    return tail_->data;
-  }
-/*template <typename InputIterator>
-  void assign(InputIterator first, InputIterator last) {} */
-
-  void push_back(const value_type& val) {
-    __node_pointer  new_node = node_alloc_.allocate(1);
-
-    node_alloc_.construct(new_node, val);
-    if (len_ == 0) {
-      head_ = new_node;
-      tail_ = new_node;
-    } else {
-      tail_->next = new_node;
-      new_node->prev = tail_;
-      tail_ = new_node;
-    }
-    ++len_;
+    return (last_node_->prev->data);
   }
 
-  void pop_back(void) {
-    if (len_ == 0)
-      throw std::out_of_range("pop_back on empty list");
-    __node_pointer  new_tail = tail_->prev;
-
-    node_alloc_.destroy(tail_);
-    node_alloc_.deallocate(tail_, 1);
-    if (len_ == 1) {
-      head_ = nullptr;
-      tail_ = nullptr;
-    } else {
-      new_tail->next = nullptr;
-      tail_ = new_tail;
-    }
-    --len_;
+  iterator insert(iterator position, const value_type& val) {
+    return insert_before_(position.node_, create_node_(val));
   }
 
-  size_type insert(size_type idx, const value_type& val) {
-    if (idx > len_)
-      throw std::out_of_range("Index out of range");
-    if (idx == 0) {
-      __node_pointer new_node = node_alloc_.allocate(1);
-
-      node_alloc_.construct(new_node, val);
-      head_->prev = new_node;
-      new_node->next = head_;
-      new_node->prev = nullptr;
-      head_ = new_node;
-    } else {
-      __node_pointer new_node = node_alloc_.allocate(1);
-      __node_pointer prev_node = head_;
-
-      node_alloc_.construct(new_node, val);
-      for (size_type i = 0; i < idx - 1; i++)
-        prev_node = prev_node->next;
-      prev_node->next->prev = new_node;
-      new_node->next = prev_node->next;
-      new_node->prev = prev_node;
-      prev_node->next = new_node;
-    }
-    ++len_;
-    return idx;
-  }
-
-  void insert(size_type idx, size_type n, const value_type& val) {
-    for (size_type i = 0; i < n; i++)
-      this->insert(idx + i, val);
-  }
-
-  size_type erase(size_type idx) {
-    __node_pointer curr = head_;
-
-    if (idx >= len_)
-      throw std::out_of_range("Index out of range");
-    for (size_type i = 0; i < idx; ++i)
-      curr = curr->next;
-    delete_(curr)
-    --len_;
-    return idx;
-  }
-
-  void erase(size_type first, size_type last) {
-    for (size_type i = first; i < last; ++i)
-      this->erase(i);
-  }
-
-  void clear(void) {
-    __node_pointer temp = head_;
-    __node_pointer next_temp;
-
-    while (temp != tail_) {
-      next_temp = temp->next;
-      delete_(temp);
-      temp = next_temp;
-    }
+  void insert(iterator position, size_type n, const value_type& val) {
+    while (n--)
+      insert_before_(position.node_, create_node_(val));
   }
 
  protected:
@@ -195,26 +171,33 @@ class LinkedList {
  private:
   allocator_type    alloc_;
   __node_allocator  node_alloc_;
-  size_type         len_;
-  __node_pointer    head_;
-  __node_pointer    tail_;
+  __node_pointer    last_node_;
 
-  void delete_(__node_pointer node) {
-    disoconnect_(node);
-    node_alloc_.destroy(node);
-    node_alloc_.deallocate(node, 1);
+  __node_pointer create_node_(const value_type& val,
+                              __node_pointer prev_p = nullptr,
+                              __node_pointer next_p = nullptr) {
+    __node_pointer new_node = node_alloc_.allocate(1);
+
+    node_alloc_.construct(new_node, __node_type(val));
+    new_node->prev = prev;
+    new_node->next = next;
+    return (new_node);
   }
 
-  void disoconnect_(__node_pointer node) {
-    if (node == head_)
-      head_ = node->next;
-    else
-      node->prev->next = node->next;
-    if (node == tail_)
-      tail_ = node->prev;
-    else
-      node->next->prev = node->prev;
+  iterator insert_before_(__node_pointer next, __node_pointer new_node) {
+    new_node->next = next;
+    if (next->prev == last_node_) {
+      new_node->prev = lsat_node_;
+      last_node_->next = new_node;
+    } else {
+      new_node->prev = next->prev;
+      next->prev->next = new_node;
+    }
+    next->prev = new_node;
+    return iterator(next->prev);
   }
-};
+
+};  //  class list
+}  //  namespace ft
 
 #endif
