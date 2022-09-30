@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 13:49:06 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/29 14:17:48 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:57:25 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	print_list(t_list list)
 	}
 	printf("\ntotal length: %lu\n", list.len);
 }
-
 
 void	test_add(t_list *list)
 {

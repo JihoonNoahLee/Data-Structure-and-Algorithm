@@ -6,12 +6,12 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 19:37:01 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/09/29 14:13:27 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:56:35 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_LINKED_LIST_H_
-# define TEST_LINKED_LIST_H_
+#ifndef TEST_LINKED_LIST_H
+# define TEST_LINKED_LIST_H
 
 # include <stdio.h>
 # include "linked_list.h"
