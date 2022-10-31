@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:43:59 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/10/29 00:37:29 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/10/31 03:12:33 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,12 @@
 
 # include <cstddef>
 # include <iterator>
-
-template <typename Category, typename T, typename Distance = ptrdiff_t,
-          typename Pointer = T*, typename Reference = T&>
-class iterator {
- public:
-  typedef T         value_type;
-  typedef Distance  difference_type;
-  typedef Pointer   pointer;
-  typedef Reference reference;
-  typedef Category  iterator_category;
-};
+# include <exception>
 
 template <typename T>
-class TreeIterator : public iterator<std::bidirectional_iterator_tag, T> {
+class TreeIterator
+  : public std::iterator<std::bidirectional_iterator_tag,
+                          typename T::value_type> {
  public:
   typedef T
       node_type;
@@ -55,13 +47,17 @@ class TreeIterator : public iterator<std::bidirectional_iterator_tag, T> {
                   value_type>::iterator_category
       iterator_category;
 
-  explicit TreeIterator(node_pointer ptr = nullptr) : ptr_(ptr) {}
+  TreeIterator(node_pointer p = nullptr, node_pointer r = nullptr)
+    : ptr_(p), root_(r) {}
 
-  TreeIterator(const TreeIterator& other) : ptr_(other.ptr_) {}
+  TreeIterator(const TreeIterator& other)
+    : ptr_(other.ptr_), root_(other.root_) {}
 
   TreeIterator& operator=(const TreeIterator& other) {
-    if (this != &other)
+    if (this != &other) {
       ptr_ = other.ptr_;
+      root_ = other.root_;
+    }
     return *this;
   }
 
@@ -86,13 +82,24 @@ class TreeIterator : public iterator<std::bidirectional_iterator_tag, T> {
     return *this;
   }
 
+  Treeireator& operator++(int) {
+    TreeIterator temp(*this);
+
+    increment_();
+    return temp;
+  }
+
+  TreeIterator& operator--() {
+    decrement_();
+    return *this;
+  }
+
  protected:
-  node_pointer ptr_;
+  node_pointer  ptr_;
+  node_pointer  root_;
 
  private:
   void increment_(void) {
-    if (ptr_ == nullptr)
-      return;
     if (ptr_->right != nullptr) {
       ptr_ = ptr_->right;
       while (ptr_->left != nullptr)
@@ -110,8 +117,28 @@ class TreeIterator : public iterator<std::bidirectional_iterator_tag, T> {
 
   void decrement_(void) {
     if (ptr == nullptr) {
+      ptr_ = root_;
+      while (ptr_->right != nullptr)
+        ptr_ = ptr_->right;
+    } else if (ptr_->left != nullptr) {
+      ptr_ = ptr_->left;
+      while (ptr_->right != nullptr)
+        ptr_ = ptr_->right;
+    } else {
+      node_pointer parent = ptr_->parent;
 
+      while (parent != nullptr && ptr_ == parent->left) {
+        ptr_ = parent;
+        parent = parent->parent;
+      }
+      ptr_ = parent;
     }
+  }
+
+  node_pointer get_left_most_(node_pointer subtree) {
+    while (subtree->left != nullptr)
+      subtree = subtree->left;
+    return subtree;
   }
 };  //  TreeIterator
 
