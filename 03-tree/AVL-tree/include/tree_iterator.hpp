@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:43:59 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/10/31 03:12:33 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/10/31 20:26:33 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ class TreeIterator
     return *this;
   }
 
-  Treeireator& operator++(int) {
+  TreeIterator& operator++(int) {
     TreeIterator temp(*this);
 
     increment_();
@@ -92,6 +92,13 @@ class TreeIterator
   TreeIterator& operator--() {
     decrement_();
     return *this;
+  }
+
+  TreeIterator& operator--(int) {
+    TreeIterator temp(*this);
+
+    decrement_();
+    return temp;
   }
 
  protected:
@@ -116,7 +123,7 @@ class TreeIterator
   }
 
   void decrement_(void) {
-    if (ptr == nullptr) {
+    if (ptr_ == nullptr) {
       ptr_ = root_;
       while (ptr_->right != nullptr)
         ptr_ = ptr_->right;

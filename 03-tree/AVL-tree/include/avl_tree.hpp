@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:23:47 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/10/28 22:19:25 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/10/31 20:27:51 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <functional>
 # include <memory>
+# include "tree_iterator.hpp"
 
 template <typename T>
 struct Node {
@@ -49,31 +50,59 @@ class AVLTree {
   typedef Node<value_type>                                      node;
   typedef typename allocator_type::template rebind<Node>::other node_allocator;
   typedef node*                                                 node_ptr;
+  typedef TreeIterator<node>                                    iterator;
 
   AVLTree(const value_compare& comp = value_compare(),
           const allocator_type& alloc = allocator_type())
     : root_(nullptr), size_(0), comp_(comp), alloc_(alloc) {}
 
+  template <typename InputIterator>
+  AVLTree(InputIterator first, InputIterator last,
+          const value_compare& comp = value_compare(),
+          const allocator_type& alloc = allocator_type())
+    : root_(nullptr), size_(0), comp_(comp), alloc_(alloc) {
+      for (InputIterator curr = first; curr != last; ++curr)
+        this->insert(curr->value);
+    }
+
   virtual ~AVLTree() {
     this->clear();
   }
 
+  AVLTree& operator=(const AVLTree& avlt) {
+    if (this != & avlt) {
+      this->clear();
+      alloc_ = avlt.alloc_;
+      comp_ = avlt.comp_;
+      this->insert(avlt.begin(), avlt.end());
+    }
+  }
+
+  iterator begin(void) {
+    return iterator(this->get_left_most_(), root_);
+  }
+
+  iterator end(void) {
+    return iterator(nullptr, root_);
+  }
+
   bool empty() const {
-    return (size_ == 0);
+    return size_ == 0;
   }
 
   size_type size() const {
-    return (size_);
+    return size_;
   }
 
-  void insert_node(const_reference& value) {
-    node_ptr = create_node_(value);
+  void insert(const reference& value) {
+    node_ptr new_node = create_node_(value);
 
     if (root_ == nullptr) {
-      root_ = node_ptr;
+      root_ = new_node;
+      ++size_;
       return;
     }
-    node_ptr parent_
+    while ()
   }
 
   void clear(void) {
@@ -83,35 +112,35 @@ class AVLTree {
   }
 
  private:
-  node_ptr  create_node_(value_type value) {
+  node_ptr create_node_(value_type value) {
     node_ptr  new_node = alloc_.allocate(1);
 
     alloc_.construct(new_node, value);
     return new_node;
   }
 
-  void  destroy_node(node_ptr node) {
+  void destroy_node_(node_ptr node) {
     alloc_.destroy(node);
     alloc_.deallocate(node, 1);
   }
 
-  void  destroy_tree_(node_ptr node) {
+  void destroy_tree_(node_ptr node) {
     if (node == nullptr)
       return ;
     destroy_tree_(node->left);
     destroy_tree_(node->right);
-    destroy_node(node);
+    destroy_node_(node);
   }
 
-  void  copy_tree(node_ptr node) {
+  void copy_tree_(node_ptr node) {
     if (node == nullptr)
       return ;
-    insert(node->value);
-    copy_tree(node->left);
-    copy_tree(node->right);
+    insert_node(node->value);
+    copy_tree_(node->left);
+    copy_tree_(node->right);
   }
 
-  void  rotate_left(node_ptr node) {
+  void rotate_left(node_ptr node) {
     node_ptr  right = node->right;
     node_ptr  parent = node->parent;
 
@@ -129,7 +158,7 @@ class AVLTree {
       parent->right = right;
   }
 
-  void  rotate_right(node_ptr node) {
+  void rotate_right(node_ptr node) {
     node_ptr  left = node->left;
     node_ptr  parent = node->parent;
 
