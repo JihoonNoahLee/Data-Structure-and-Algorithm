@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 23:43:59 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/10/31 20:26:33 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/11/01 22:33:33 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class TreeIterator
                   value_type>::iterator_category
       iterator_category;
 
-  TreeIterator(node_pointer p = nullptr, node_pointer r = nullptr)
+  explicit TreeIterator(node_pointer p = nullptr, node_pointer r = nullptr)
     : ptr_(p), root_(r) {}
 
   TreeIterator(const TreeIterator& other)
@@ -101,6 +101,10 @@ class TreeIterator
     return temp;
   }
 
+  node_pointer base(void) const {
+    return ptr_;
+  }
+
  protected:
   node_pointer  ptr_;
   node_pointer  root_;
@@ -140,12 +144,6 @@ class TreeIterator
       }
       ptr_ = parent;
     }
-  }
-
-  node_pointer get_left_most_(node_pointer subtree) {
-    while (subtree->left != nullptr)
-      subtree = subtree->left;
-    return subtree;
   }
 };  //  TreeIterator
 
