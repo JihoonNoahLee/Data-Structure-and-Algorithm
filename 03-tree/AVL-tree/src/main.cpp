@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:25:25 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/11/03 00:20:23 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/11/03 01:11:43 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int main(void) {
   std::cout << std::endl;
 
   tree.erase(4);
+  tree.erase(2);
+  tree.erase(1);
   tree.erase(14);
   print_AVLTree(tree);
   visualize_AVLTree(tree);

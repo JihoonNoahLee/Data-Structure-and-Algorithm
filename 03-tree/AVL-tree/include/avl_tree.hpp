@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:23:47 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/11/02 23:23:26 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/11/03 01:04:15 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ class AVLTree {
 
   void erase(iterator position) {
     node_ptr node_to_erase = position.base();
+    node_ptr parent = node_to_erase->parent;
 
     if (node_to_erase == nullptr)
       return;
@@ -128,7 +129,7 @@ class AVLTree {
     } else {
       erase_node_with_two_children_(node_to_erase);
     }
-    erase_rebalance_(node_to_erase);
+    erase_rebalance_(parent);
   }
 
   void erase(const_reference value) {
@@ -262,7 +263,11 @@ class AVLTree {
     node_ptr  successor_parent = successor->parent;
 
     node->value = successor->value;
-    successor_parent->left = successor->right;
+    if (successor_parent->left == successor) {
+      successor_parent->left = successor->right;
+    } else {
+      successor_parent->right = successor->right;
+    }
     if (successor->right != nullptr)
       successor->right->parent = successor_parent;
     delete_node_(successor);
