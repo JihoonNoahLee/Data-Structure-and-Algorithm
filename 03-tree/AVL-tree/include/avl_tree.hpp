@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:23:47 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/11/02 00:40:23 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/11/02 23:23:26 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,15 @@ class AVLTree {
     return iterator(this->get_left_most_(), root_);
   }
 
+  iterator begin(void) const {
+    return iterator(this->get_left_most_(), root_);
+  }
+
   iterator end(void) {
+    return iterator(nullptr, root_);
+  }
+
+  iterator end(void) const {
     return iterator(nullptr, root_);
   }
 
