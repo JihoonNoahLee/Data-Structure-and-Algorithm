@@ -6,7 +6,7 @@
 /*   By: jihoolee <jihoolee@student.42SEOUL.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:23:47 by jihoolee          #+#    #+#             */
-/*   Updated: 2022/11/04 15:48:15 by jihoolee         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:53:46 by jihoolee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ class AVLTree {
   }
 
   void insert(const_reference value) {
-    if (this->find(value) == this->end())
+    if (this->find(value) != this->end())
       return;
     node_ptr new_node = create_node_(value);
 
